@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace PromotionEngine
 {
-    public class PromotionClasses
-    {
-
-    }
     public class Item
     {
         public Item(string itemType, int itemQuantity)
@@ -30,6 +24,7 @@ namespace PromotionEngine
             new PromotionalPrice("B", 2, 45.0),
             new PromotionalPrice("C", 1, 20.0),
             new PromotionalPrice("D", 1, 15.0),
+            new PromotionalPrice("C&D", 1, 30.0),
         };
 
         public double GetSingleItemTotalPrice(Item item)
@@ -42,7 +37,7 @@ namespace PromotionEngine
             double itemEffectivePrice = 0.0;
             var actPromotionForItem = activePromotions.Single(p => p.ItemType == item._itemType);
 
-            if(item._itemQuantity >= actPromotionForItem.ItemQuantity)
+            if (item._itemQuantity >= actPromotionForItem.ItemQuantity)
             {
                 var quotient = item._itemQuantity / actPromotionForItem.ItemQuantity;
                 var remainder = item._itemQuantity % actPromotionForItem.ItemQuantity;
@@ -55,36 +50,6 @@ namespace PromotionEngine
 
             return itemEffectivePrice;
         }
-
-    }
-
-    public class PromotionalPrice
-    {
-        public int ItemQuantity { get; set; }
-        public string ItemType { get; set; }
-        public double ItemPromotionalPrice { get; set; }
-
-        public PromotionalPrice(string itemType, int itemQuantity, double itemPromotionalPrice)
-        {
-            ItemType = itemType;
-            ItemQuantity = itemQuantity;
-            ItemPromotionalPrice = itemPromotionalPrice;
-        }
-    }
-
-    public class Cart
-    {
-        private List<Item> _items;
-
-        public Cart(List<Item> items)
-        {
-            _items = items;
-        }
-
-        //public double Total => _items.Count > 0 ? (_items[0].ItemPrice * _items[0].ItemQuantity): 0.0;
-        public double Total => _items.Aggregate(0, (double total, Item item) => total + item.GetSingleItemTotalPrice(item));
-
-        public double TotalAfterPromotions => _items.Aggregate(0, (double totalAfterPromotions, Item item) => totalAfterPromotions + item.GetPromotionalPriceByItem(item));
 
     }
 }

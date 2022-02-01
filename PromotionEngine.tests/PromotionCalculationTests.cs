@@ -62,7 +62,7 @@ namespace PromotionEngine.tests
         }
 
         [TestMethod]
-        public void CheckPromotionPriceOfMultipleItemsABBOnly()
+        public void CheckPromotionPriceOfMultipleItemsABDOnly()
         {
             Cart items = new Cart(new List<Item> { new Item("A", 5), new Item("B", 6), new Item("D", 6) });
             Assert.AreEqual(455.0, items.TotalAfterPromotions);
