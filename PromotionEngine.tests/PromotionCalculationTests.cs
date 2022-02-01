@@ -18,21 +18,20 @@ namespace PromotionEngine.tests
             Cart items = new Cart(new List<Item>());
             Assert.AreEqual(0.0, items.Total);
         }
-    }
 
-    public class Item
-    {
-        public string ItemType { get; set; }
-        public int ItemPrice { get; set; }
-    }
-
-    public class Cart
-    {
-        public Cart(List<Item> lists)
+        [TestMethod]
+        public void CheckPriceOfOneItem()
         {
-            
+            Cart items = new Cart(new List<Item> { new Item("A", 1, 50.0)});
+            Assert.AreEqual(50.0, items.Total);
         }
 
-        public double Total => 0.0;
+        [TestMethod]
+        public void CheckPriceOfMultipleItems()
+        {
+            Cart items = new Cart(new List<Item> { new Item("A", 1, 50.0), new Item("B", 2, 30.0) });
+            Assert.AreEqual(110.0, items.Total);
+        }
+
     }
 }
