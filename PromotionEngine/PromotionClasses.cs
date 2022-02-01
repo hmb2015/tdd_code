@@ -28,7 +28,7 @@ namespace PromotionEngine
         {
             new PromotionalPrice("A", 3, 130.0),
             new PromotionalPrice("B", 2, 45.0),
-            new PromotionalPrice("C", 1, 0.0),
+            new PromotionalPrice("C", 1, 20.0),
             new PromotionalPrice("D", 1, 15.0),
         };
 
@@ -37,31 +37,38 @@ namespace PromotionEngine
             return (item._itemQuantity * (_itemPriceList.ContainsKey(item._itemType) ? _itemPriceList[item._itemType] : 0.0));
         }
 
-
-        public double GetPromotionalPrice(List<Item> items)
+        public double GetPromotionalPriceByItem(Item item)
         {
-            double totalPromotionPrice = 0.0;
+            double itemEffectivePrice = 0.0;
+            var actPromotionForItem = activePromotions.Single(p => p.ItemType == item._itemType);
 
-            foreach (var item in items)
+            if(item._itemQuantity >= actPromotionForItem.ItemQuantity)
             {
-
+                var quotient = item._itemQuantity / actPromotionForItem.ItemQuantity;
+                var remainder = item._itemQuantity % actPromotionForItem.ItemQuantity;
+                itemEffectivePrice = (quotient * actPromotionForItem.ItemPromotionalPrice) + (remainder * _itemPriceList[item._itemType]);
+            }
+            else
+            {
+                itemEffectivePrice = GetSingleItemTotalPrice(item);
             }
 
-            return totalPromotionPrice;
+            return itemEffectivePrice;
         }
+
     }
 
     public class PromotionalPrice
     {
-        private int _itemQuantity { get; set; }
-        private string _itemType { get; set; }
-        private double _itemPromotionalPrice { get; set; }
+        public int ItemQuantity { get; set; }
+        public string ItemType { get; set; }
+        public double ItemPromotionalPrice { get; set; }
 
         public PromotionalPrice(string itemType, int itemQuantity, double itemPromotionalPrice)
         {
-            _itemType = itemType;
-            _itemQuantity = itemQuantity;
-            _itemPromotionalPrice = itemPromotionalPrice;
+            ItemType = itemType;
+            ItemQuantity = itemQuantity;
+            ItemPromotionalPrice = itemPromotionalPrice;
         }
     }
 
@@ -77,7 +84,7 @@ namespace PromotionEngine
         //public double Total => _items.Count > 0 ? (_items[0].ItemPrice * _items[0].ItemQuantity): 0.0;
         public double Total => _items.Aggregate(0, (double total, Item item) => total + item.GetSingleItemTotalPrice(item));
 
-        public double TotalAfterPromotions => _items.Aggregate(0, (double totalAfterPromotions, Item item) => totalAfterPromotions + item.GetPromotionalPrice(_items));
+        public double TotalAfterPromotions => _items.Aggregate(0, (double totalAfterPromotions, Item item) => totalAfterPromotions + item.GetPromotionalPriceByItem(item));
 
     }
 }
