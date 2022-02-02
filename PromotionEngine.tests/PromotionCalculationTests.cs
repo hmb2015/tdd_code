@@ -15,56 +15,104 @@ namespace PromotionEngine.tests
         [TestMethod]
         public void CheckCartIsEmpty()
         {
-            Cart items = new Cart(new List<Item>());
+            //Arrange
+            List<Item> testItems = new List<Item>();
+
+            //ACT
+            Cart items = new Cart(testItems);
+
+            //ASSERT
             Assert.AreEqual(0.0, items.Total);
         }
 
         [TestMethod]
         public void CheckPriceOfOneItem()
         {
-            Cart items = new Cart(new List<Item> { new Item("A", 1)});
+            //Arrange
+            List<Item> testItems = new List<Item> { new Item("A", 1) };
+
+            //ACT
+            Cart items = new Cart(testItems);
+
+            //ASSERT
             Assert.AreEqual(50.0, items.Total);
         }
 
         [TestMethod]
         public void CheckPriceOfMultipleItems()
         {
-            Cart items = new Cart(new List<Item> { new Item("A", 1), new Item("B", 2) });
+            //Arrange
+            List<Item> testItems = new List<Item> { new Item("A", 1), new Item("B", 2) };
+
+            //ACT
+            Cart items = new Cart(testItems);
+
+            //ASSERT
             Assert.AreEqual(110.0, items.Total);
         }
 
         [TestMethod]
         public void CheckPriceOfItemsNotAvailable()
         {
-            Cart items = new Cart(new List<Item> { new Item("E", 1), new Item("G", 2) });
+            //Arrange
+            List<Item> testItems = new List<Item> { new Item("E", 1), new Item("G", 2) };
+
+            //ACT
+            Cart items = new Cart(testItems);
+
+            //ASSERT
             Assert.AreEqual(0.0, items.Total);
         }
 
         [TestMethod]
         public void CheckPromotionPriceOfMultipleItems_Fail()
         {
-            Cart items = new Cart(new List<Item> { new Item("A", 1), new Item("B", 2) });
+            //Arrange
+            List<Item> testItems = new List<Item> { new Item("A", 1), new Item("B", 2) };
+
+            //ACT
+            Cart items = new Cart(testItems);
+
+            //ASSERT
             Assert.AreNotEqual(110.0, items.TotalAfterPromotions);
         }
 
         [TestMethod]
         public void CheckPromotionPriceOfMultipleItemsABOnly()
         {
-            Cart items = new Cart(new List<Item> { new Item("A", 1), new Item("B", 1) });
+            //Arrange
+            List<Item> testItems = new List<Item> { new Item("A", 1), new Item("B", 1) };
+
+            //ACT
+            Cart items = new Cart(testItems);
+
+            //ASSERT
             Assert.AreEqual(80.0, items.TotalAfterPromotions);
         }
 
         [TestMethod]
         public void CheckPromotionPriceOfMultipleItemsABCOnly()
         {
-            Cart items = new Cart(new List<Item> { new Item("A", 5), new Item("B", 6), new Item("C", 6) });
+            //Arrange
+            List<Item> testItems = new List<Item> { new Item("A", 5), new Item("B", 6), new Item("C", 6) };
+
+            //ACT
+            Cart items = new Cart(testItems);
+
+            //ASSERT
             Assert.AreEqual(485.0, items.TotalAfterPromotions);
         }
 
         [TestMethod]
         public void CheckPromotionPriceOfMultipleItemsABDOnly()
         {
-            Cart items = new Cart(new List<Item> { new Item("A", 5), new Item("B", 6), new Item("D", 6) });
+            //Arrange
+            List<Item> testItems = new List<Item> { new Item("A", 5), new Item("B", 6), new Item("D", 6) };
+
+            //ACT
+            Cart items = new Cart(testItems);
+
+            //ASSERT
             Assert.AreEqual(455.0, items.TotalAfterPromotions);
         }
     }
