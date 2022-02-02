@@ -115,5 +115,18 @@ namespace PromotionEngine.tests
             //ASSERT
             Assert.AreEqual(455.0, items.TotalAfterPromotions);
         }
+
+        [TestMethod]
+        public void CheckPromotionPriceOfMultipleItemsABCD()
+        {
+            //Arrange
+            List<Item> testItems = new List<Item> { new Item("A", 3), new Item("B", 5), new Item("C", 1), new Item("D", 1) };
+
+            //ACT
+            Cart items = new Cart(testItems);
+
+            //ASSERT
+            Assert.AreEqual(280.0, items.TotalAfterPromotions);
+        }
     }
 }
