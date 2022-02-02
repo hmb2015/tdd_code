@@ -126,7 +126,7 @@ namespace PromotionEngine.tests
             Cart items = new Cart(testItems);
 
             //ASSERT
-            Assert.AreEqual(280.0, items.TotalAfterPromotions);
+            Assert.AreEqual(285.0, items.TotalAfterPromotions);
         }
     }
 }

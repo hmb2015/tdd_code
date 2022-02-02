@@ -36,46 +36,5 @@ namespace PromotionEngine
 
             return itemEffectivePrice;
         }
-
-        private List<string> GetMultipleEligibleTypesForPromotion(List<PromotionalPrice> activePromotions)
-        {
-            List<string> eligibleItems = new List<string>();
-
-            foreach (var item in activePromotions)
-            {
-                if(item.ItemType.Contains("|"))
-                {
-                    eligibleItems.AddRange(item.ItemType.Split("|").ToList());
-                }
-            }
-
-            return eligibleItems.Distinct().ToList();                
-        }
-
-        public double GetTotalPromotionalPriceForAllItems(List<Item> items)
-        {
-            double totalPrice = 0.0;
-
-            List<Item> multipleEligiblePromotionItems = GetMultipleEligibleItemsForPromotion(items).OrderBy(i => i._itemQuantity).ToList();
-
-            //totalPrice += 
-            foreach (var item in multipleEligiblePromotionItems)
-            {
-
-            }
-
-            return totalPrice;
-        }
-
-        private List<Item> GetMultipleEligibleItemsForPromotion(List<Item> items)
-        {
-            List<string> eligibleItemsForPromotion = GetMultipleEligibleTypesForPromotion(PriceAndPromotions.ActivePromotions);
-
-            var itemsEligibleForMultiPromo = (from i in items
-                                              where eligibleItemsForPromotion.Any(e => i._itemType == e)
-                                              select i).ToList();
-
-            return (itemsEligibleForMultiPromo.Count == eligibleItemsForPromotion.Count) ? itemsEligibleForMultiPromo : new List<Item>();
-        }
     }
 }
